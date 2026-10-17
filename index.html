@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ticket Manager – Keep track of your event tickets on Windows</title>
+<meta name="description" content="Ticket Manager is a Windows app for keeping every event ticket you hold, with seat, date and price, in one searchable list.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e7edf6;--surface:#fff;--ink:#0f1a2b;--muted:#4f5d73;--line:#c9d3e2;--accent:#4f55e6;--accent-ink:#fff;--hi:#ffd23f;--hi-ink:#0f1a2b;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#0d1420;--surface:#161f2e;--ink:#eaf0fa;--muted:#9aa9bf;--line:#27344a;--accent:#8a8fff;--accent-ink:#0d1420;color-scheme:dark}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55;font-size:1.05rem}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 clamp(18px,4vw,32px)}
+nav{display:flex;align-items:center;gap:24px;padding:20px 0}
+nav .brand{font-weight:800;font-size:1.2rem;text-decoration:none;margin-right:auto;letter-spacing:-.02em}
+nav a.link{text-decoration:none;color:var(--muted)}
+nav a.link:hover{color:var(--ink)}
+.btn{display:inline-block;background:var(--accent);color:var(--accent-ink);padding:12px 22px;border-radius:10px;font-weight:700;text-decoration:none;border:2px solid var(--accent)}
+.btn.alt{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn:hover{filter:brightness(1.08)}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;padding:56px 0 80px}
+h1{font-size:clamp(2.4rem,6vw,4.4rem);line-height:1;letter-spacing:-.035em;font-weight:800;margin:0 0 20px}
+.hero p.lead{font-size:1.25rem;color:var(--muted);max-width:30em;margin:0 0 28px}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+/* ticket stub */
+.stub{position:relative;background:var(--surface);border-radius:14px;padding:26px 26px 22px;transform:rotate(2deg);box-shadow:0 18px 40px -18px rgba(15,26,43,.45);
+  -webkit-mask:radial-gradient(circle 12px at 0 62%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 12px at 100% 62%,#0000 98%,#000) right/51% 100% no-repeat;
+  mask:radial-gradient(circle 12px at 0 62%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 12px at 100% 62%,#0000 98%,#000) right/51% 100% no-repeat}
+.stub .no{font-size:.9rem;color:var(--muted);margin:0}
+.stub h2{font-size:1.5rem;line-height:1.15;margin:4px 0 18px;letter-spacing:-.02em}
+.stub .perf{border-top:3px dashed var(--line);margin:0 -26px 16px}
+.stub dl{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;margin:0}
+.stub dt{font-size:.8rem;color:var(--muted)}
+.stub dd{margin:0;font-weight:700}
+.pill{display:inline-block;background:var(--hi);color:var(--hi-ink);padding:1px 10px;border-radius:99px;font-weight:700}
+section{padding:72px 0;border-top:1px solid var(--line)}
+h2.title{font-size:clamp(1.7rem,3.6vw,2.4rem);letter-spacing:-.03em;line-height:1.1;margin:0 0 36px;max-width:18em}
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:28px 36px}
+.features h3{margin:0 0 6px;font-size:1.15rem}
+.features p{margin:0;color:var(--muted)}
+.steps{list-style:none;counter-reset:s;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
+.steps li{counter-increment:s;background:var(--surface);border-radius:12px;padding:22px}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-weight:800;margin-bottom:12px}
+.steps h3{margin:0 0 4px}
+.steps p{margin:0;color:var(--muted)}
+.shot{display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--line);box-shadow:0 24px 50px -24px rgba(15,26,43,.55)}
+.dl{background:var(--ink);color:var(--bg);border-radius:18px;padding:clamp(28px,5vw,56px);display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between}
+.dl h2{margin:0 0 6px;font-size:clamp(1.6rem,3.4vw,2.3rem);letter-spacing:-.03em}
+.dl p{margin:0;opacity:.8}
+.dl .btn{background:var(--hi);border-color:var(--hi);color:var(--hi-ink)}
+.dl .btn.alt{background:transparent;color:var(--bg);border-color:rgba(255,255,255,.35)}
+footer{padding:32px 0 48px;color:var(--muted);font-size:.95rem;display:flex;flex-wrap:wrap;gap:12px 24px}
+footer a{margin-left:auto}
+@media (max-width:820px){.hero{grid-template-columns:1fr;padding-top:24px}.stub{max-width:380px;transform:rotate(1deg)}nav a.link{display:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a class="brand" href="#top">Ticket Manager</a>
+    <a class="link" href="#app">The app</a>
+    <a class="link" href="#features">Features</a>
+    <a class="link" href="#how">How it works</a>
+    <a class="btn" href="#download">Download</a>
+  </nav>
+
+  <header class="hero" id="top">
+    <div>
+      <h1>All your event tickets in one list.</h1>
+      <p class="lead">Ticket Manager is a Windows app for tracking the tickets you hold: who they’re for, which event, where you’re sitting, what they cost and their status.</p>
+      <div class="cta">
+        <a class="btn" href="#download">Download for Windows</a>
+        <a class="btn alt" href="#app">See the app</a>
+      </div>
+    </div>
+    <div class="stub" aria-label="Example ticket">
+      <p class="no">Concert · General admission</p>
+      <h2>Arctic Monkeys at Madison Square Garden</h2>
+      <div class="perf"></div>
+      <dl>
+        <div><dt>Name</dt><dd>Alex Morgan</dd></div>
+        <div><dt>Seat / section</dt><dd>Sec 104, Row F</dd></div>
+        <div><dt>Date</dt><dd>Sat, 14 Nov · 8:00 PM</dd></div>
+        <div><dt>Price</dt><dd>$145.00 <span class="pill">Active</span></dd></div>
+      </dl>
+    </div>
+  </header>
+
+  <section id="app">
+    <h2 class="title">A simple table for every ticket you own</h2>
+    <img class="shot" src="screenshot.png" alt="Ticket Manager window showing a searchable table of tickets with Add Ticket, Edit, Duplicate and Delete buttons" width="1186" height="732">
+  </section>
+
+  <section id="features">
+    <h2 class="title">Everything about a ticket, in one row</h2>
+    <div class="features">
+      <div><h3>All the details</h3><p>Name, venue type, ticket type, event, location, date, time, seat or section, price and status.</p></div>
+      <div><h3>Search everything</h3><p>Find a ticket by name, venue, location or status as you type.</p></div>
+      <div><h3>Tabs by venue</h3><p>Switch between all venues or view just one kind of event.</p></div>
+      <div><h3>Add, edit, duplicate</h3><p>Duplicate a ticket when you buy several for the same show, then change what differs.</p></div>
+      <div><h3>Know what it’s worth</h3><p>The status bar shows your ticket count and the total value of active tickets.</p></div>
+      <div><h3>Export to CSV</h3><p>Send your list to Excel or Google Sheets in one click.</p></div>
+    </div>
+  </section>
+
+  <section id="how">
+    <h2 class="title">Up and running in three steps</h2>
+    <ol class="steps">
+      <li><h3>Add a ticket</h3><p>Enter the event, seat, date and price.</p></li>
+      <li><h3>Organize</h3><p>Duplicate, edit or search to keep the list accurate.</p></li>
+      <li><h3>Export</h3><p>Save your list as a CSV whenever you need a copy.</p></li>
+    </ol>
+  </section>
+
+  <section id="download">
+    <div class="dl">
+      <div>
+        <h2>Get Ticket Manager</h2>
+        <p>Windows 10 and 11.</p>
+      </div>
+      <div class="cta">
+        <!-- Replace "#" with your real download link (e.g. a GitHub Releases .exe/.msi URL) -->
+        <a class="btn" href="#">Download for Windows</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© <span id="yr"></span> Ticket Manager</span>
+    <a href="https://github.com/karcha3/Ticket-Manager">View on GitHub</a>
+  </footer>
+</div>
+<script>document.getElementById("yr").textContent=new Date().getFullYear()</script>
+</body>
+</html>
