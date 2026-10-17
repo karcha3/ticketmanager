@@ -29,13 +29,16 @@ nav a.l:hover{color:var(--ink)}
 .btn.d{color:var(--danger);border-color:var(--danger);background:transparent}
 .btn.big{padding:13px 24px;font-size:1rem;border-radius:11px}
 .hero{text-align:center;padding:48px 0 36px}
+.beta{display:inline-block;background:color-mix(in srgb,var(--accent) 18%,transparent);color:var(--accent);border:1px solid var(--accent);border-radius:99px;padding:3px 14px;font-size:.8rem;font-weight:600;margin-bottom:18px}
+.badge{margin-left:auto;font-size:.72rem;font-weight:600;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:1px 10px}
+.betanote{font-size:.9rem;color:var(--muted);margin:16px 0 0}
 h1{font-size:clamp(2.3rem,5.5vw,4rem);line-height:1.05;letter-spacing:-.035em;margin:0 auto 18px;max-width:14em;font-weight:700}
 .lead{color:var(--muted);font-size:1.15rem;max-width:34em;margin:0 auto 28px}
 .cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
 /* app window replica */
 .win{background:var(--bg);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 40px 80px -30px rgba(0,0,0,.65);margin:20px 0 10px;text-align:left}
 .title{display:flex;align-items:center;gap:8px;padding:8px 14px;font-size:.8rem;border-bottom:1px solid var(--line)}
-.title .ctl{margin-left:auto;letter-spacing:14px;color:var(--muted)}
+.title .ctl{letter-spacing:14px;color:var(--muted)}
 .bar{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;border-bottom:1px solid var(--line);gap:12px;flex-wrap:wrap}
 .bar b{font-size:1.1rem}
 .tools{display:flex;gap:10px;padding:18px 22px 14px;flex-wrap:wrap}
@@ -77,8 +80,9 @@ footer a{margin-left:auto;color:inherit}
   </nav>
 
   <header class="hero" id="top">
+    <span class="beta">Beta</span>
     <h1>Every ticket you hold, in one clean table.</h1>
-    <p class="lead">Ticket Manager is a Windows app for tracking event tickets: who they’re for, the event, the seat, the date, the price and the status. This App Is Currently In Beta</p>
+    <p class="lead">Ticket Manager is a Windows app for tracking event tickets: who they’re for, the event, the seat, the date, the price and the status.</p>
     <div class="cta">
       <a class="btn p big" href="https://github.com/karcha3/Ticket-Manager/releases/download/V0.100/TicketManager.exe">Download for Windows</a>
       <a class="btn big" href="#features">See features</a>
@@ -86,7 +90,7 @@ footer a{margin-left:auto;color:inherit}
 
     <!-- Interactive replica of the app, with sample data -->
     <div class="win" id="app" aria-label="Interactive demo of Ticket Manager with sample tickets">
-      <div class="title"><span class="logo" aria-hidden="true" style="width:14px;height:10px"></span>Ticket Manager<span class="ctl" aria-hidden="true">–□✕</span></div>
+      <div class="title"><span class="logo" aria-hidden="true" style="width:14px;height:10px"></span>Ticket Manager<span class="badge">Close match</span><span class="ctl" aria-hidden="true" style="margin-left:12px">–□✕</span></div>
       <div class="bar">
         <b><span class="logo" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:10px"></span>Ticket Manager</b>
         <div style="display:flex;gap:10px"><button class="btn" id="csv" type="button">Export CSV</button><button class="btn" id="theme" type="button">Light Mode</button></div>
@@ -105,20 +109,22 @@ footer a{margin-left:auto;color:inherit}
           <tbody id="rows"></tbody>
         </table>
       </div>
-      <div class="foot"><span id="count"></span><span>Sample data</span></div>
+      <div class="foot"><span id="count"></span><span>Sample data · close match to the real app</span></div>
     </div>
-    <p class="note" id="note">Try it: search, switch tabs, select a row, then Duplicate or Delete.</p>
+    <p class="note" id="note">Try it: search, switch venue tabs, select a row, then Duplicate or Delete.</p>
   </header>
 
   <section id="features">
     <h2>Built for keeping tickets organized</h2>
     <div class="grid">
-      <div class="card"><h3>Every detail in a row</h3><p>First and last name, venue type, ticket type, event, location, date, time, seat or section, price and status.</p></div>
-      <div class="card"><h3>Instant search</h3><p>Search by name, venue, location or status and the table filters as you type.</p></div>
-      <div class="card"><h3>Venue tabs</h3><p>Look at all venues together, or jump to one kind of event.</p></div>
-      <div class="card"><h3>Add, edit, duplicate, delete</h3><p>Buying four seats? Duplicate a ticket and change only what differs.</p></div>
-      <div class="card"><h3>Active value at a glance</h3><p>The status bar shows how many tickets you have and the total value of active ones.</p></div>
-      <div class="card"><h3>Export to CSV, light or dark</h3><p>Send your list to a spreadsheet, and pick the theme that suits you.</p></div>
+      <div class="card"><h3>Every detail in a row</h3><p>Name, venue type, ticket type, venue or event, location, date, time, seat or section, price, status and notes.</p></div>
+      <div class="card"><h3>Instant search</h3><p>Filters every field as you type, within the tab you’re viewing.</p></div>
+      <div class="card"><h3>A tab for every venue</h3><p>Tabs are created automatically from the venues you enter, and update as you add or edit tickets.</p></div>
+      <div class="card"><h3>Calendar and clock pickers</h3><p>Choose dates from a calendar popup and times from a clock dial or 30-minute slots.</p></div>
+      <div class="card"><h3>Duplicate for group buys</h3><p>Buying several seats? Duplicate a ticket, change the name and seat, and save.</p></div>
+      <div class="card"><h3>Export what you see</h3><p>Export CSV respects your search and the active venue tab, so you can export everything or just one event.</p></div>
+      <div class="card"><h3>Your data stays on your PC</h3><p>Tickets are stored in a local SQLite database in your user data folder. Nothing is uploaded.</p></div>
+      <div class="card"><h3>Light and dark mode</h3><p>Switch themes with one click. The app remembers your choice.</p></div>
     </div>
   </section>
 
@@ -129,8 +135,9 @@ footer a{margin-left:auto;color:inherit}
 
   <section class="dl" id="download">
     <h2>Get Ticket Manager</h2>
-    <p>For Windows 10 and 11.</p>
+    <p>For Windows 10 and 11. Currently in beta.</p>
     <a class="btn p big" href="https://github.com/karcha3/Ticket-Manager/releases/download/V0.100/TicketManager.exe">Download for Windows</a>
+    <p class="betanote">This app is in beta, so you may run into bugs. For example, the Duplicate button is known to be a little broken.</p>
   </section>
 
   <footer>
@@ -142,18 +149,20 @@ footer a{margin-left:auto;color:inherit}
 <script>
 (function(){
   var data=[
-    ["Alex","Morgan","Concert","General Admission","Arctic Monkeys","Madison Square Garden, NY","Nov 14, 2026","8:00 PM","Sec 104, Row F","$145.00","Active"],
-    ["Alex","Morgan","Concert","General Admission","Arctic Monkeys","Madison Square Garden, NY","Nov 14, 2026","8:00 PM","Sec 104, Row G","$145.00","Active"],
-    ["Priya","Nair","Sports","Reserved","Knicks vs Celtics","Madison Square Garden, NY","Dec 2, 2026","7:30 PM","Sec 212, Row B","$98.50","Active"],
-    ["Sam","Okafor","Theater","Orchestra","Hamilton","Richard Rodgers Theatre, NY","Oct 3, 2026","2:00 PM","Orch L, Seat 12","$210.00","Used"],
-    ["Lena","Fischer","Festival","3-Day Pass","Summer Sound","Hudson Park, NJ","Jul 18, 2027","12:00 PM","GA","$320.00","Listed"]
+    ["Alex","Morgan","Concert","General Admission","Madison Square Garden","New York, NY","Nov 14, 2026","8:00 PM","Sec 104, Row F","$145.00","Active"],
+    ["Alex","Morgan","Concert","General Admission","Madison Square Garden","New York, NY","Nov 14, 2026","8:00 PM","Sec 104, Row G","$145.00","Active"],
+    ["Priya","Nair","Sports","Reserved","Madison Square Garden","New York, NY","Dec 2, 2026","7:30 PM","Sec 212, Row B","$98.50","Active"],
+    ["Sam","Okafor","Theater","Orchestra","Richard Rodgers Theatre","New York, NY","Oct 3, 2026","2:00 PM","Orch L, Seat 12","$210.00","Used"],
+    ["Lena","Fischer","Festival","3-Day Pass","Hudson Park","Jersey City, NJ","Jul 18, 2027","12:00 PM","GA","$320.00","Listed"]
   ];
   var tab="All Venues", sel=-1, $=function(s){return document.querySelector(s)};
-  var types=["All Venues","Concert","Sports","Theater","Festival"];
+  var types=["All Venues"];
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
   function vis(){var q=$("#q").value.toLowerCase();return data.map(function(r,i){return{r:r,i:i}}).filter(function(o){
-    return (tab==="All Venues"||o.r[2]===tab)&&(!q||[0,1,4,5,10].some(function(k){return o.r[k].toLowerCase().indexOf(q)>-1}))})}
+    return (tab==="All Venues"||o.r[4]===tab)&&(!q||[0,1,4,5,10].some(function(k){return o.r[k].toLowerCase().indexOf(q)>-1}))})}
   function render(){
+    types=["All Venues"].concat(data.map(function(r){return r[4]}).filter(function(v,i,a){return a.indexOf(v)===i}));
+    if(types.indexOf(tab)<0)tab="All Venues";
     $("#tabs").innerHTML=types.map(function(t){return '<button class="tab" role="tab" aria-selected="'+(t===tab)+'" data-t="'+t+'">'+t+'</button>'}).join("");
     var v=vis();
     $("#rows").innerHTML=v.map(function(o){return '<tr data-i="'+o.i+'"'+(o.i===sel?' class="sel"':'')+'>'+o.r.map(function(c,k){return '<td'+(k===10?' class="st '+esc(c)+'"':'')+'>'+esc(c)+'</td>'}).join("")+'</tr>'}).join("")||'<tr><td colspan="11" style="color:var(--muted);padding:40px;text-align:center">No tickets match.</td></tr>';
