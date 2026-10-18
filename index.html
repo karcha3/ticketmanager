@@ -4,58 +4,57 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ticket Manager – Event ticket tracker for Windows</title>
-<meta name="description" content="Ticket Manager is a Windows app that keeps every event ticket you hold in one searchable table.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta name="description" content="Ticket Manager is a Windows app that keeps the event tickets you hold in one searchable table.">
+<link rel="icon" type="image/png" href="icon.png">
 <style>
-:root{--page:#14161b;--bg:#1d2027;--panel:#252933;--tabbar:#2d2d31;--line:#343a47;--ink:#eef1f7;--muted:#98a1b3;--accent:#8386ff;--accent-ink:#12132b;--danger:#ff6b7d;--pink:#f0456f;color-scheme:dark}
-:root[data-theme="light"]{--page:#e8ebf2;--bg:#f6f7fb;--panel:#fff;--tabbar:#e9ecf3;--line:#d3d8e3;--ink:#171b26;--muted:#5d677b;--accent:#5a5ef0;--accent-ink:#fff;--danger:#d63a50;color-scheme:light}
+:root{--page:#14161b;--bg:#1d2027;--panel:#252933;--tabbar:#2d2d31;--line:#343a47;--ctl:#8a94a6;--ink:#eef1f7;--muted:#98a1b3;--accent:#8386ff;--accent-ink:#12132b;--danger:#ff6b7d;--ok:#58d39a;color-scheme:dark}
+:root[data-theme="light"]{--page:#e8ebf2;--bg:#f6f7fb;--panel:#fff;--tabbar:#e9ecf3;--line:#d3d8e3;--ctl:#6b7487;--ink:#171b26;--muted:#5d677b;--accent:#4f53e0;--accent-ink:#fff;--danger:#c0283d;--ok:#17724a;color-scheme:light}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--page);color:var(--ink);font-family:Inter,"Segoe UI",system-ui,sans-serif;line-height:1.55}
-:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+body{margin:0;background:var(--page);color:var(--ink);font-family:"Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;line-height:1.55}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.skip{position:absolute;left:12px;top:-60px;background:var(--accent);color:var(--accent-ink);padding:10px 16px;border-radius:8px;font-weight:700;z-index:10;text-decoration:none}
+.skip:focus{top:12px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .wrap{max-width:1120px;margin:0 auto;padding:0 clamp(16px,4vw,32px)}
 nav{display:flex;align-items:center;gap:22px;padding:18px 0}
 .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.1rem;text-decoration:none;margin-right:auto;color:var(--ink)}
-.logo{width:22px;height:16px;border-radius:4px;background:var(--pink);position:relative}
-.logo::before,.logo::after{content:"";position:absolute;top:50%;width:6px;height:6px;border-radius:50%;background:var(--page);transform:translateY(-50%)}
-.logo::before{left:-3px}.logo::after{right:-3px}
+.logo{width:28px;height:28px;object-fit:contain;display:block}
 nav a.l{color:var(--muted);text-decoration:none;font-size:.95rem}
-nav a.l:hover{color:var(--ink)}
+nav a.l:hover{color:var(--ink);text-decoration:underline}
 .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;font-size:.9rem;font-weight:500;padding:9px 16px;border-radius:9px;cursor:pointer;text-decoration:none}
 .btn:hover{border-color:var(--muted)}
 .btn.p{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
 .btn.d{color:var(--danger);border-color:var(--danger);background:transparent}
 .btn.big{padding:13px 24px;font-size:1rem;border-radius:11px}
 .hero{text-align:center;padding:48px 0 36px}
-.beta{display:inline-block;background:color-mix(in srgb,var(--accent) 18%,transparent);color:var(--accent);border:1px solid var(--accent);border-radius:99px;padding:3px 14px;font-size:.8rem;font-weight:600;margin-bottom:18px}
-.badge{margin-left:auto;font-size:.72rem;font-weight:600;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:1px 10px}
-.betanote{font-size:.9rem;color:var(--muted);margin:16px 0 0}
 h1{font-size:clamp(2.3rem,5.5vw,4rem);line-height:1.05;letter-spacing:-.035em;margin:0 auto 18px;max-width:14em;font-weight:700}
 .lead{color:var(--muted);font-size:1.15rem;max-width:34em;margin:0 auto 28px}
 .cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
-/* app window replica */
-.win{background:var(--bg);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 40px 80px -30px rgba(0,0,0,.65);margin:20px 0 10px;text-align:left}
+.win{background:var(--bg);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 40px 80px -30px rgba(0,0,0,.55);margin:20px 0 10px;text-align:left}
 .title{display:flex;align-items:center;gap:8px;padding:8px 14px;font-size:.8rem;border-bottom:1px solid var(--line)}
-.title .ctl{letter-spacing:14px;color:var(--muted)}
+.title .ctl{letter-spacing:14px;color:var(--muted);margin-left:12px}
+.badge{margin-left:auto;font-size:.75rem;font-weight:600;color:var(--muted);border:1px solid var(--muted);border-radius:99px;padding:1px 10px}
 .bar{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;border-bottom:1px solid var(--line);gap:12px;flex-wrap:wrap}
-.bar b{font-size:1.1rem}
+.bar b{font-size:1.1rem;display:flex;align-items:center;gap:10px}
 .tools{display:flex;gap:10px;padding:18px 22px 14px;flex-wrap:wrap}
-.tools input{flex:1;min-width:180px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 14px;color:var(--ink);font:inherit;font-size:.9rem}
+.tools input{flex:1;min-width:180px;background:var(--panel);border:1px solid var(--ctl);border-radius:10px;padding:10px 14px;color:var(--ink);font:inherit;font-size:.9rem}
+.tools input::placeholder{color:var(--muted);opacity:1}
 .tabs{margin:0 22px;background:var(--tabbar);display:flex;overflow-x:auto}
 .tab{border:0;background:none;color:var(--muted);font:inherit;font-size:.85rem;padding:10px 18px;cursor:pointer;white-space:nowrap}
-.tab[aria-selected="true"]{background:var(--accent);color:var(--accent-ink);font-weight:600;border-radius:8px 8px 0 0}
+.tab:hover{color:var(--ink)}
+.tab[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);font-weight:600;border-radius:8px 8px 0 0}
 .tw{margin:0 22px;background:var(--panel);overflow-x:auto;min-height:230px}
-table{width:100%;border-collapse:collapse;font-size:.82rem;min-width:860px}
-th{color:var(--muted);font-weight:500;text-align:left;padding:13px 12px;border-bottom:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:.82rem;min-width:980px}
+th{color:var(--muted);font-weight:600;text-align:left;padding:13px 12px;border-bottom:1px solid var(--line)}
 td{padding:12px;border-bottom:1px solid var(--line);white-space:nowrap}
 tbody tr{cursor:pointer}
-tbody tr:hover{background:color-mix(in srgb,var(--accent) 8%,transparent)}
-tbody tr.sel{background:color-mix(in srgb,var(--accent) 22%,transparent)}
-.st{font-weight:600}.st.Active{color:#58d39a}.st.Used{color:var(--muted)}.st.Listed{color:#f0b84a}
+tbody tr:hover{background:color-mix(in srgb,var(--accent) 6%,transparent)}
+tbody tr.sel{background:color-mix(in srgb,var(--accent) 10%,transparent)}
+tbody tr.sel td:first-child{box-shadow:inset 4px 0 var(--accent)}
+.st{font-weight:600}.st.Active{color:var(--ok)}.st.Used{color:var(--muted)}.st.Cancelled{color:var(--danger)}
 .foot{padding:12px 22px;font-size:.8rem;color:var(--muted);display:flex;gap:14px;flex-wrap:wrap;justify-content:space-between}
-.note{text-align:center;color:var(--muted);font-size:.85rem;margin:8px 0 0;min-height:1.3em}
+.note{text-align:center;color:var(--muted);font-size:.9rem;margin:8px 0 0;min-height:1.4em}
 section{padding:72px 0 0}
 h2{font-size:clamp(1.6rem,3.4vw,2.3rem);letter-spacing:-.03em;line-height:1.1;margin:0 0 30px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
@@ -64,125 +63,142 @@ h2{font-size:clamp(1.6rem,3.4vw,2.3rem);letter-spacing:-.03em;line-height:1.1;ma
 .shot{width:100%;height:auto;display:block;border-radius:12px;border:1px solid var(--line)}
 .dl{margin:72px 0 0;background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:clamp(26px,5vw,52px);text-align:center}
 .dl h2{margin-bottom:8px}.dl p{color:var(--muted);margin:0 0 24px}
+.dl p.dlnote{font-size:.9rem;margin:16px 0 0}
 footer{padding:36px 0 48px;color:var(--muted);font-size:.9rem;display:flex;gap:12px 24px;flex-wrap:wrap}
-footer a{margin-left:auto;color:inherit}
-@media (max-width:700px){nav a.l{display:none}}
+footer nav{padding:0;margin-left:auto;gap:18px}
+footer a{color:var(--muted)}
+footer a:hover{color:var(--ink)}
+@media (max-width:700px){nav a.l{display:none}footer nav{margin-left:0}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
+<a class="skip" href="#main">Skip to main content</a>
 <div class="wrap">
-  <nav>
-    <a class="brand" href="#top"><span class="logo" aria-hidden="true"></span>Ticket Manager</a>
-    <a class="l" href="#features">Features</a>
-    <a class="l" href="#real">Screenshot</a>
-    <a class="btn p" href="https://github.com/karcha3/Ticket-Manager/releases/download/V0.100-installer/TicketManager-Setup-0.100.exe">Download</a>
-  </nav>
+  <header>
+    <nav aria-label="Main">
+      <a class="brand" href="#top"><img class="logo" src="icon.png" alt="" width="28" height="28">Ticket Manager</a>
+      <a class="l" href="#features">Features</a>
+      <a class="l" href="#real">Screenshot</a>
+      <a class="btn p" href="https://github.com/karcha3/Ticket-Manager/releases/latest/download/TicketManager-Setup-1.0.exe">Download for Windows</a>
+    </nav>
+  </header>
 
-  <header class="hero" id="top">
-    <span class="beta">Beta</span>
-    <h1>Every ticket you hold, in one clean table.</h1>
+  <main id="main" tabindex="-1">
+  <section class="hero" id="top" style="padding-top:48px" aria-labelledby="h1">
+    <h1 id="h1">Every ticket you hold, in one clean table.</h1>
     <p class="lead">Ticket Manager is a Windows app for tracking event tickets: who they’re for, the event, the seat, the date, the price and the status.</p>
     <div class="cta">
-      <a class="btn p big" href="https://github.com/karcha3/Ticket-Manager/releases/download/V0.100-installer/TicketManager-Setup-0.100.exe">Download for Windows</a>
+      <a class="btn p big" href="https://github.com/karcha3/Ticket-Manager/releases/latest/download/TicketManager-Setup-1.0.exe">Download for Windows</a>
       <a class="btn big" href="#features">See features</a>
     </div>
 
-    <!-- Interactive replica of the app, with sample data -->
-    <div class="win" id="app" aria-label="Interactive demo of Ticket Manager with sample tickets">
-      <div class="title"><span class="logo" aria-hidden="true" style="width:14px;height:10px"></span>Ticket Manager<span class="badge">Close match</span><span class="ctl" aria-hidden="true" style="margin-left:12px">–□✕</span></div>
+    <div class="win" role="group" aria-label="Interactive demo of Ticket Manager with made-up sample tickets">
+      <div class="title"><img class="logo" src="icon.png" alt="" width="16" height="16" style="width:16px;height:16px">Ticket Manager<span class="badge">Close match</span><span class="ctl" aria-hidden="true">–□✕</span></div>
       <div class="bar">
-        <b><span class="logo" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:10px"></span>Ticket Manager</b>
+        <b><img class="logo" src="icon.png" alt="" width="22" height="22" style="width:22px;height:22px">Ticket Manager</b>
         <div style="display:flex;gap:10px"><button class="btn" id="csv" type="button">Export CSV</button><button class="btn" id="theme" type="button">Light Mode</button></div>
       </div>
       <div class="tools">
-        <input id="q" type="search" placeholder="Search by name, venue, location, status…" aria-label="Search tickets">
+        <label class="sr" for="q">Search sample tickets</label>
+        <input id="q" type="search" placeholder="Search by name, venue, location, status…" autocomplete="off">
         <button class="btn p" data-demo type="button">+ Add Ticket</button>
         <button class="btn" data-demo type="button">Edit</button>
         <button class="btn" id="dup" type="button">Duplicate</button>
         <button class="btn d" id="del" type="button">Delete</button>
       </div>
-      <div class="tabs" role="tablist" id="tabs"></div>
-      <div class="tw">
-        <table>
-          <thead><tr><th>First Name</th><th>Last Name</th><th>Venue Type</th><th>Ticket Type</th><th>Venue / Event</th><th>Location</th><th>Date</th><th>Time</th><th>Seat / Section</th><th>Price</th><th>Status</th></tr></thead>
+      <div class="tabs" role="group" aria-label="Filter by venue" id="tabs"></div>
+      <div class="tw" tabindex="0" role="region" aria-label="Sample tickets table (scrolls sideways on small screens)">
+        <table role="grid" aria-label="Sample tickets">
+          <thead><tr><th scope="col">First Name</th><th scope="col">Last Name</th><th scope="col">Venue Type</th><th scope="col">Ticket Type</th><th scope="col">Venue / Event</th><th scope="col">Location</th><th scope="col">Date</th><th scope="col">Time</th><th scope="col">Seat / Section</th><th scope="col">Price</th><th scope="col">Status</th></tr></thead>
           <tbody id="rows"></tbody>
         </table>
       </div>
-      <div class="foot"><span id="count"></span><span>Sample data · close match to the real app</span></div>
+      <div class="foot"><span id="count"></span><span>Made-up sample data · close match to the real app</span></div>
     </div>
-    <p class="note" id="note">Try it: search, switch venue tabs, select a row, then Duplicate or Delete.</p>
-  </header>
+    <p class="note" id="note" role="status">Try it: search, pick a venue tab, select a row (click, or Tab and Enter), then use Duplicate or Delete.</p>
+  </section>
 
-  <section id="features">
-    <h2>Built for keeping tickets organized</h2>
+  <section id="features" aria-labelledby="h-features">
+    <h2 id="h-features">Built for keeping tickets organized</h2>
     <div class="grid">
-      <div class="card"><h3>Every detail in a row</h3><p>Name, venue type, ticket type, venue or event, location, date, time, seat or section, price, status and notes.</p></div>
+      <div class="card"><h3>Every detail in a row</h3><p>Name, venue type, ticket type, venue or event, location, date, time, seat or section, price, status (Active, Used, Cancelled or Refunded) and notes.</p></div>
       <div class="card"><h3>Instant search</h3><p>Filters every field as you type, within the tab you’re viewing.</p></div>
       <div class="card"><h3>A tab for every venue</h3><p>Tabs are created automatically from the venues you enter, and update as you add or edit tickets.</p></div>
-      <div class="card"><h3>Calendar and clock pickers</h3><p>Choose dates from a calendar popup and times from a clock dial or 30-minute slots.</p></div>
+      <div class="card"><h3>Calendar and clock pickers</h3><p>Choose dates from a calendar popup and times from a clock dial or in 30-minute steps.</p></div>
       <div class="card"><h3>Duplicate for group buys</h3><p>Buying several seats? Duplicate a ticket, change the name and seat, and save.</p></div>
-      <div class="card"><h3>Export what you see</h3><p>Export CSV respects your search and the active venue tab, so you can export everything or just one event.</p></div>
-      <div class="card"><h3>Your data stays on your PC</h3><p>Tickets are stored in a local SQLite database in your user data folder. Nothing is uploaded.</p></div>
+      <div class="card"><h3>Total value at a glance</h3><p>The status bar shows your ticket count and the total price of your tickets, not counting cancelled or refunded ones.</p></div>
+      <div class="card"><h3>Export what you see</h3><p>Export CSV follows your search and the active venue tab, so you can export everything or just one venue.</p></div>
+      <div class="card"><h3>Your data stays on your PC</h3><p>Tickets are stored in a local database on your computer and are not uploaded anywhere.</p></div>
       <div class="card"><h3>Light and dark mode</h3><p>Switch themes with one click. The app remembers your choice.</p></div>
     </div>
   </section>
 
-  <section id="real">
-    <h2>The app on your desktop</h2>
-    <img class="shot" src="screenshot.png" alt="Ticket Manager Windows app in dark mode with an empty ticket table" width="1186" height="732" loading="lazy">
+  <section id="real" aria-labelledby="h-real">
+    <h2 id="h-real">The app on your desktop</h2>
+    <img class="shot" src="screenshot.png" alt="The Ticket Manager window in dark mode with no tickets yet. It shows a search box, Add Ticket, Edit, Duplicate and Delete buttons, an All Venues tab, and an empty table with columns for name, venue, location, date, time, seat, price and status." width="1186" height="732" loading="lazy">
   </section>
 
-  <section class="dl" id="download">
-    <h2>Get Ticket Manager</h2>
-    <p>For Windows 10 and 11. Currently in beta, version 0.100.</p>
+  <section class="dl" id="download" aria-labelledby="h-dl">
+    <h2 id="h-dl">Get Ticket Manager</h2>
+    <p>Version 1.0 for Windows 10 and 11 (64-bit).</p>
     <div class="cta">
-      <a class="btn p big" href="https://github.com/karcha3/Ticket-Manager/releases/download/V0.100-installer/TicketManager-Setup-0.100.exe">Download installer (recommended)</a>
-      <a class="btn big" href="https://github.com/karcha3/Ticket-Manager/releases/download/V0.100/TicketManager.exe">Portable .exe</a>
+      <a class="btn p big" href="https://github.com/karcha3/Ticket-Manager/releases/latest/download/TicketManager-Setup-1.0.exe">Download installer (.exe, recommended)</a>
+      <a class="btn big" href="https://github.com/karcha3/Ticket-Manager/releases/latest/download/TicketManager.exe">Download portable version (.exe)</a>
     </div>
-    <p class="betanote">This app is in beta, so you may run into bugs. For example, the Duplicate button and the Dark mode is known to be a little broken.</p>
-    <p class="betanote">The installer is the full version. The portable .exe is a portable installation (NOT FULL).</p>
+    <p class="dlnote">The installer is the full version. The portable version runs without installing and is not the full installation.</p>
+    <p class="dlnote">Downloads are hosted on GitHub.</p>
   </section>
+  </main>
 
   <footer>
-    <span>© <span id="yr"></span> Karcha Studios. All rights reserved. <a href="https://github.com/karcha3/Ticket-Manager/blob/main/LICENSE.txt" style="margin-left:6px">License</a></span>
-    <a href="https://github.com/karcha3/Ticket-Manager">View on GitHub</a>
+    <span>© 2026 Karcha Studios. All rights reserved.</span>
+    <nav aria-label="Footer">
+      <a href="privacy.html">Privacy &amp; cookies</a>
+      <a href="terms.html">Terms &amp; refunds</a>
+      <a href="https://github.com/karcha3/Ticket-Manager/blob/main/LICENSE.txt">Software license</a>
+      <a href="https://github.com/karcha3/Ticket-Manager">GitHub</a>
+    </nav>
   </footer>
 </div>
 
 <script>
 (function(){
   var data=[
-    ["Alex","Morgan","Concert","General Admission","Madison Square Garden","New York, NY","Nov 14, 2026","8:00 PM","Sec 104, Row F","$145.00","Active"],
-    ["Alex","Morgan","Concert","General Admission","Madison Square Garden","New York, NY","Nov 14, 2026","8:00 PM","Sec 104, Row G","$145.00","Active"],
-    ["Priya","Nair","Sports","Reserved","Madison Square Garden","New York, NY","Dec 2, 2026","7:30 PM","Sec 212, Row B","$98.50","Active"],
-    ["Sam","Okafor","Theater","Orchestra","Richard Rodgers Theatre","New York, NY","Oct 3, 2026","2:00 PM","Orch L, Seat 12","$210.00","Used"],
-    ["Lena","Fischer","Festival","3-Day Pass","Hudson Park","Jersey City, NJ","Jul 18, 2027","12:00 PM","GA","$320.00","Listed"]
+    ["Jamie","Parker","Concert","Standard","Riverside Arena","Northville","2026-11-14","19:00","Sec 104, Row F","145.00","Active"],
+    ["Jamie","Parker","Concert","Standard","Riverside Arena","Northville","2026-11-14","19:00","Sec 104, Row G","145.00","Active"],
+    ["Riley","Chen","Sports","Standard","Riverside Arena","Northville","2026-12-02","19:30","Sec 212, Row B","98.50","Active"],
+    ["Dana","Cole","Theater","Group","Grand Theatre","Lakeside","2026-10-03","14:00","Orch L, Seat 12","210.00","Used"],
+    ["Sam","Rivera","Festival","Season Pass","Harbor Park","Lakeside","2027-07-18","12:00","General admission","320.00","Cancelled"]
   ];
-  var tab="All Venues", sel=-1, $=function(s){return document.querySelector(s)};
-  var types=["All Venues"];
+  var tab="All Venues", sel=-1, types=["All Venues"];
+  var $=function(s){return document.querySelector(s)};
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
   function vis(){var q=$("#q").value.toLowerCase();return data.map(function(r,i){return{r:r,i:i}}).filter(function(o){
-    return (tab==="All Venues"||o.r[4]===tab)&&(!q||[0,1,4,5,10].some(function(k){return o.r[k].toLowerCase().indexOf(q)>-1}))})}
+    return (tab==="All Venues"||o.r[4]===tab)&&(!q||o.r.some(function(c){return c.toLowerCase().indexOf(q)>-1}))})}
   function render(){
-    types=["All Venues"].concat(data.map(function(r){return r[4]}).filter(function(v,i,a){return a.indexOf(v)===i}));
+    types=["All Venues"].concat(data.map(function(r){return r[4]}).filter(function(v,i,a){return a.indexOf(v)===i}).sort());
     if(types.indexOf(tab)<0)tab="All Venues";
-    $("#tabs").innerHTML=types.map(function(t){return '<button class="tab" role="tab" aria-selected="'+(t===tab)+'" data-t="'+t+'">'+t+'</button>'}).join("");
+    $("#tabs").innerHTML=types.map(function(t){return '<button class="tab" type="button" aria-pressed="'+(t===tab)+'" data-t="'+esc(t)+'">'+esc(t)+'</button>'}).join("");
     var v=vis();
-    $("#rows").innerHTML=v.map(function(o){return '<tr data-i="'+o.i+'"'+(o.i===sel?' class="sel"':'')+'>'+o.r.map(function(c,k){return '<td'+(k===10?' class="st '+esc(c)+'"':'')+'>'+esc(c)+'</td>'}).join("")+'</tr>'}).join("")||'<tr><td colspan="11" style="color:var(--muted);padding:40px;text-align:center">No tickets match.</td></tr>';
-    var total=v.filter(function(o){return o.r[10]==="Active"}).reduce(function(a,o){return a+parseFloat(o.r[9].replace("$",""))},0);
-    $("#count").textContent=v.length+' ticket'+(v.length===1?'':'s')+' in "'+tab+'"  •  Active value: $'+total.toFixed(2);
+    $("#rows").innerHTML=v.length?v.map(function(o){return '<tr tabindex="0" data-i="'+o.i+'" aria-selected="'+(o.i===sel)+'"'+(o.i===sel?' class="sel"':'')+'>'+o.r.map(function(c,k){return '<td'+(k===10?' class="st '+esc(c)+'"':'')+'>'+(k===9?'$'+esc(c):esc(c))+'</td>'}).join("")+'</tr>'}).join(""):'<tr><td colspan="11" style="color:var(--muted);padding:40px;text-align:center">No tickets match.</td></tr>';
+    var total=v.filter(function(o){return o.r[10]!=="Cancelled"&&o.r[10]!=="Refunded"}).reduce(function(a,o){return a+parseFloat(o.r[9])},0);
+    $("#count").textContent=v.length+(v.length===1?" ticket":" tickets")+' in "'+tab+'"  •  Active value: $'+total.toFixed(2);
   }
   function note(t){$("#note").textContent=t}
+  function pick(tr){if(tr&&tr.dataset.i!==undefined){sel=+tr.dataset.i;render();var n=$('tr[data-i="'+sel+'"]');if(n)n.focus()}}
   $("#q").addEventListener("input",render);
-  $("#tabs").addEventListener("click",function(e){var b=e.target.closest(".tab");if(b){tab=b.dataset.t;render()}});
-  $("#rows").addEventListener("click",function(e){var tr=e.target.closest("tr[data-i]");if(tr){sel=+tr.dataset.i;render()}});
+  $("#tabs").addEventListener("click",function(e){var b=e.target.closest(".tab");if(b){tab=b.dataset.t;render();var n=$('.tab[aria-pressed="true"]');if(n)n.focus()}});
+  $("#rows").addEventListener("click",function(e){pick(e.target.closest("tr"))});
+  $("#rows").addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();pick(e.target.closest("tr"))}});
   $("#dup").onclick=function(){if(sel<0)return note("Select a ticket first.");data.splice(sel+1,0,data[sel].slice());sel++;render();note("Ticket duplicated.")};
   $("#del").onclick=function(){if(sel<0)return note("Select a ticket first.");data.splice(sel,1);sel=-1;render();note("Ticket deleted (demo only).")};
-  document.querySelectorAll("[data-demo]").forEach(function(b){b.onclick=function(){note("Add and Edit are available in the full app.")}});
-  $("#csv").onclick=function(){note("Export CSV is available in the full app.")};
-  $("#theme").onclick=function(){var r=document.documentElement,l=r.dataset.theme==="light";r.dataset.theme=l?"dark":"light";this.textContent=l?"Light Mode":"Dark Mode"};
-  $("#yr").textContent=new Date().getFullYear();
+  document.querySelectorAll("[data-demo]").forEach(function(b){b.onclick=function(){note("Add and Edit are only in the full app.")}});
+  $("#csv").onclick=function(){note("Export CSV is only in the full app.")};
+  var root=document.documentElement,tb=$("#theme");
+  function setTheme(light){root.dataset.theme=light?"light":"dark";tb.textContent=light?"Dark Mode":"Light Mode"}
+  tb.onclick=function(){setTheme(root.dataset.theme!=="light")};
+  setTheme(window.matchMedia&&matchMedia("(prefers-color-scheme: light)").matches);
   render();
 })();
 </script>
